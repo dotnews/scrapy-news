@@ -8,9 +8,7 @@ class FoxnewsSpider(scrapy.Spider):
     name = 'foxnews'
     allowed_domains = ['foxnews.com']
     start_urls = ['http://www.foxnews.com']
-    #start_urls = ['http://www.foxnews.com/category/politics/executive.html']
 
-    # TODO click 'Show more' and capture more articles
     def start_requests(self):
         for url in self.start_urls:
             yield SplashRequest(url, self.parse, args={})
@@ -22,6 +20,7 @@ class FoxnewsSpider(scrapy.Spider):
             if 'category' in url:
                 yield SplashRequest("https:" + url, self.parse_articles, args={})
 
+    # TODO click 'Show more' and capture more articles
     def parse_articles(self, response):
         # meta tags
         category = response.xpath("//meta[@name='prism.subsection1']/@content")[0].extract()
