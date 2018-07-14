@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for inthenews project
+# Scrapy settings for dotnews project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,14 +9,14 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'inthenews'
+BOT_NAME = 'dotnews'
 
-SPIDER_MODULES = ['inthenews.spiders']
-NEWSPIDER_MODULE = 'inthenews.spiders'
+SPIDER_MODULES = ['dotnews.spiders']
+NEWSPIDER_MODULE = 'dotnews.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'inthenews (+http://www.yourdomain.com)'
+#USER_AGENT = 'dotnews (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -69,7 +69,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'inthenews.pipelines.JsonPipeline': 300,
+    'dotnews.pipelines.JsonPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

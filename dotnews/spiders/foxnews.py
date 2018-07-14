@@ -2,7 +2,7 @@
 import scrapy
 from scrapy_splash import SplashRequest
 from scrapy.loader import ItemLoader
-from inthenews.items import NewsItem
+from dotnews.items import NewsItem
 
 class FoxnewsSpider(scrapy.Spider):
     name = 'foxnews'

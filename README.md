@@ -1,4 +1,4 @@
-# InTheNews scraper
+# dotNEWS scraper
 
 ## Setting up Splash
 
