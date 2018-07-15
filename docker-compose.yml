@@ -1,8 +1,16 @@
-version: '2'
+version: '3.1'
 services:
   splash:
     image: scrapinghub/splash
     ports:
-     - "5023:5023"
-     - "0.0.0.0:8050:8050"
-     - "8051:8051"
+      - "5023:5023"
+      - "0.0.0.0:8050:8050"
+      - "8051:8051"
+    expose:
+      - "8050"
+  scrapy:
+    build: .
+    environment:
+      SPLASH_URL: http://splash:8050
+    depends_on:
+      - splash
