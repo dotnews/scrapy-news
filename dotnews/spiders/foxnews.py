@@ -1,13 +1,27 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy_splash import SplashRequest
-from scrapy.loader import ItemLoader
-from dotnews.items import NewsItem
+from dotnews.items import NewsItem, NewsItemLoader
 
 class FoxnewsSpider(scrapy.Spider):
     name = 'foxnews'
     allowed_domains = ['foxnews.com']
-    start_urls = ['http://www.foxnews.com']
+    start_urls = [
+        'http://www.foxnews.com/category/us/crime.html',
+        'http://www.foxnews.com/category/us/military.html',
+        'http://www.foxnews.com/category/us/education.html',
+        'http://www.foxnews.com/category/us/terror.html',
+        'http://www.foxnews.com/category/us/immigration.html',
+        'http://www.foxnews.com/category/us/personal-freeedoms.html',
+        'http://www.foxnews.com/category/world/united-nations.html',
+        'http://www.foxnews.com/category/world/conflicts.html',
+        'http://www.foxnews.com/category/world/terrorism.html',
+        'http://www.foxnews.com/category/world/disasters.html',
+        'http://www.foxnews.com/category/world/global-economy.html',
+        'http://www.foxnews.com/category/world/environment.html',
+        'http://www.foxnews.com/category/world/world-religion.html',
+        'http://www.foxnews.com/category/world/scandals.html'
+    ]
 
     script = """
 function main(splash)
@@ -17,10 +31,10 @@ function main(splash)
      assert(splash:go(splash.args.url))
      splash:wait(1)
 
-     for i = 10,1,-1
+     for i = 1,11
      do
-         splash:runjs("$('.js-load-more').click()")
-         splash:wait(0.5)
+         ok, reason = splash:runjs("$('.js-load-more').click()")
+         splash:wait(1.0)
      end
 
      return splash:html()
@@ -31,19 +45,10 @@ end
         for url in self.start_urls:
             yield SplashRequest(url,
                                 self.parse,
-                                args={})
+                                endpoint='execute',
+                                args={'lua_source': self.script})
 
     def parse(self, response):
-        topic_urls_xpath = '//footer/div/div/nav/ul/li/a/@href'
-        urls = response.xpath(topic_urls_xpath).extract()
-        for url in urls:
-            if 'category' in url:
-                yield SplashRequest('https:' + url,
-                                    self.parse_articles,
-                                    endpoint='execute',
-                                    args={'lua_source': self.script})
-
-    def parse_articles(self, response):
         # meta tags
         category = response.xpath("//meta[@name='prism.subsection1']/@content")[0].extract()
         subcategory = response.xpath("//meta[@name='prism.subsection2']/@content")[0].extract()
